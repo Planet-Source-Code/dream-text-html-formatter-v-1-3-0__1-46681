@@ -1,0 +1,27 @@
+
+Public Sub FileSaver()
+10      On Error GoTo LogError
+  Dim strPath As String
+  
+20      strPath = ShowSave(frmMDI.hwnd, "All Files (*.*)" & Chr(0) & "*.*", "T&H Save Text/Html", False)
+  
+30      If strPath = vbNullString Then Exit Sub  'If this call returns a filename then..
+    
+40        Screen.MousePointer = vbHourGlass
+          frmMDI.RTB.SaveFile strPath, rtfText
+50       'ToFileSave strPath, frmText.RTB.Text        'Call the save file function
+
+60        frmMDI.SB.Panels(1).Text = "Status: File Saved: "
+70        frmMDI.SB.Panels(2).Text = strPath & "          "
+80        Screen.MousePointer = vbDefault
+90    On Error GoTo 0
+100   Exit Sub
+LogError:
+110      If ErrorLogAndStop(Err.Number, Err.Description, Erl, Err.Source, _
+                                       "{FileSaver}", _
+                                       "{Public Sub}", _
+                                       "{ToFile}", _
+                                       "{ToFile}") Then
+120     End If
+130     Resume Next ' Resume 'Exit Sub
+End Sub
